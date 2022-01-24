@@ -8,7 +8,13 @@ router.get('/', (req, res) => {
   // be sure to include its associated Products
   console.log('======================');
   Category.findAll({
-    attributes: ['id', 'category_name']
+    attributes: ['id', 'category_name'],
+    include: [
+      {
+        model: Product,
+        attributes: ['product_name', 'price', 'stock', 'category_id']
+      }
+    ]
   })
     .then(dbCategoryData => res.json(dbCategoryData))
     .catch(err => {
@@ -23,6 +29,12 @@ router.get('/:id', (req, res) => {
   console.log('======================');
   Category.findAll({
     attributes: ['id', 'category_name'],
+    include: [
+      {
+        model: Product,
+        attributes: ['product_name', 'price', 'stock', 'category_id']
+      }
+    ],
     where: {
       id: req.params.id
     }
